@@ -24,32 +24,38 @@ fun PerfilAluno(
     curso: String,
     idFoto: Int = R.drawable.login
 ) {
+
     Column(
-        verticalArrangement = Arrangement.spacedBy(10.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.spacedBy(14.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
+
         Image(
-            painter = painterResource(id = idFoto),
-            contentDescription = "Foto Perfil",
+            painter = painterResource(
+                id = idFoto
+            ),
+            contentDescription = "Foto do aluno",
             contentScale = ContentScale.Crop,
             modifier = Modifier
-                .size(200.dp)
+                .size(135.dp)
                 .clip(CircleShape)
                 .border(
-                    width = 2.dp,
-                    MaterialTheme.colorScheme.primary,
-                    CircleShape
+                    width = 4.dp,
+                    color = MaterialTheme.colorScheme.primary,
+                    shape = CircleShape
                 )
         )
+
         InfoAluno(
             label = "Nome",
             value = nome
         )
+
         InfoAluno(
             label = "Curso",
             value = curso,
-            fontSizeValue = 25.sp,
-            fontWeightValue = FontWeight.Normal
+            fontSizeValue = 16.sp,
+            fontWeightValue = FontWeight.Medium
         )
     }
 }
