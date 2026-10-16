@@ -1,36 +1,28 @@
 package com.raphael.carteirinha.core.network
 
-import com.raphael.carteirinha.core.auth.AuthTokenStore
+import com.raphael.carteirinha.core.auth.SessionTokenStore
 import okhttp3.Interceptor
 import okhttp3.Response
 
 class AuthInterceptor(
-    private val tokenStore: AuthTokenStore
+    private val sessionTokenStore: SessionTokenStore
 ) : Interceptor {
 
-    override fun intercept(
-        chain: Interceptor.Chain
-    ): Response {
+    override fun intercept(chain: Interceptor.Chain): Response {
 
-        val originalRequest = chain.request()
-
-        val token = tokenStore.getToken()
+        val requestOriginal = chain.request()
+        val token = sessionTokenStore.obter()
 
         if (token.isNullOrBlank()) {
-            return chain.proceed(originalRequest)
+            return chain.proceed(requestOriginal)
         }
 
-        val authenticatedRequest =
-            originalRequest
-                .newBuilder()
+        val requestAutenticada = requestOriginal.newBuilder()
                 .header(
                     "Authorization",
                     "Bearer $token"
-                )
-                .build()
+                ).build()
 
-        return chain.proceed(
-            authenticatedRequest
-        )
+        return chain.proceed(requestAutenticada)
     }
 }
