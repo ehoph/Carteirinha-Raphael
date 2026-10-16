@@ -23,15 +23,11 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavController
 import com.raphael.carteirinha.feature.login.domain.model.UsuarioLogado
 import com.raphael.carteirinha.feature.login.presentation.LoginEvent
 import com.raphael.carteirinha.feature.login.presentation.LoginViewModel
@@ -39,8 +35,7 @@ import com.raphael.carteirinha.feature.login.presentation.LoginViewModel
 @Composable
 fun LoginScreen(
     modifier: Modifier = Modifier,
-    navController: NavController = NavController(LocalContext.current),
-    viewModel: LoginViewModel = viewModel(),
+    viewModel: LoginViewModel,
     onLoginSucesso: (UsuarioLogado) -> Unit = {}
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -103,7 +98,7 @@ fun LoginScreen(
                     },
                     shape = RoundedCornerShape(14.dp),
                     singleLine = true,
-                    isError = uiState.erroMessage != null
+                    isError = uiState.errorMessage != null
                 )
 
                 OutlinedTextField(
@@ -120,10 +115,10 @@ fun LoginScreen(
                     visualTransformation = PasswordVisualTransformation(),
                     shape = RoundedCornerShape(14.dp),
                     singleLine = true,
-                    isError = uiState.erroMessage != null
+                    isError = uiState.errorMessage != null
                 )
 
-                uiState.erroMessage?.let { error ->
+                uiState.errorMessage?.let { error ->
 
                     Text(
                         text = error,
@@ -176,11 +171,3 @@ fun LoginScreen(
     }
 }
 
-@Preview(
-    showBackground = true,
-    showSystemUi = true
-)
-@Composable
-fun LoginScreenPreview() {
-    LoginScreen()
-}
