@@ -20,7 +20,6 @@ fun AppNavHost(
     onDarkThemeChange: (Boolean) -> Unit,
     container: AppContainer
 ) {
-
     val sessionFactory = remember(container.sessionTokenStore) {
         SessionViewModelFactory(
             sessionTokenStore = container.sessionTokenStore
@@ -42,7 +41,6 @@ fun AppNavHost(
         currentGraph: String,
         destinationGraph: String
     ) {
-
         navController.navigate(destinationGraph) {
             popUpTo(currentGraph) {
                 inclusive = true
@@ -94,7 +92,10 @@ fun AppNavHost(
         )
 
         professorNavGraph(
+            navController = navController,
             usuarioLogadoFlow = sessionViewModel.usuarioLogado,
+            turmaProfessorRepository = container.turmaProfessorRepository,
+            unidadeCurricularProfessorRepository = container.unidadeCurricularProfessorRepository,
             darkTheme = darkTheme,
             onDarkThemeChange = onDarkThemeChange,
             onLogout = {
